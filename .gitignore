@@ -1,1 +1,4 @@
 venv/
+.env
+cookies_snapshot/
+trying.py
