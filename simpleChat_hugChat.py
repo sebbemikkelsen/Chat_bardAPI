@@ -36,13 +36,21 @@ class HC_bot:
         # Get conversation list
         #conversation_list = chatbot.get_conversation_list()
 
+    def get_summary(self):
+        print(self.chat.summarize_conversation(self.id))
 
-        # Switch model (default: meta-llama/Llama-2-70b-chat-hf. )
-        #chatbot.switch_llm(0) # Switch to `OpenAssistant/oasst-sft-6-llama-30b-xor`
-        #chatbot.switch_llm(1) # Switch to `meta-llama/Llama-2-70b-chat-hf`
 
-    def get_summary():
-        pass 
+    def switch_model(self, model):
+        if model == "OpenAssistant":
+            self.chatbot.switch_llm(0) # Switch to `OpenAssistant/oasst-sft-6-llama-30b-xor`
+        elif model == "meta-llama":
+            self.chatbot.switch_llm(1) # Switch to `OpenAssistant/oasst-sft-6-llama-30b-xor`
+        elif model == "codellama":
+            self.chatbot.switch_llm(2) #'codellama/CodeLlama-34b-Instruct-hf'
+        else:
+            print("error, choose between: OpenAssistant, meta-llama, or codellama")
+
+
 
 
 
