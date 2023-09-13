@@ -11,8 +11,6 @@ def load_docs(directory):
   return documents
 
 documents = load_docs(directory)
-print(len(documents))
-
 
 
 
@@ -22,7 +20,6 @@ def split_docs(documents,chunk_size=1000,chunk_overlap=20):
   return docs
 
 docs = split_docs(documents)
-print(len(docs))
 
 
 
@@ -37,6 +34,9 @@ db = Chroma.from_documents(docs, embeddings)
 
 
 query = "How many books is there in the library?"
-matching_docs = db.similarity_search(query)
+matching_docs = db.similarity_search_with_score(query, k=4)
 
-matching_docs[0]
+print(matching_docs[0])
+print(matching_docs[1])
+print(matching_docs[2])
+print(matching_docs[3])
