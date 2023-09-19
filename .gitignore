@@ -2,3 +2,5 @@ venv/
 .env
 cookies_snapshot/
 trying.py
+trying2.py
+htmlTemplate.py
