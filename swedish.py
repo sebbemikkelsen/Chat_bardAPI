@@ -73,6 +73,7 @@ embeddings = HuggingFaceEmbeddings(model_name="KBLab/sentence-bert-swedish-cased
 # Define your query
 query = "När anses bolaget bildat?"
 
+
 # Initialize the list to store matching documents
 matching_docs = []
 
@@ -143,10 +144,11 @@ os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
 
 #repo_id = "google/flan-t5-xxl"
 #repo_id = "timpal0l/mdeberta-v3-base-squad2"
+#repo_id = "google/mt5-large"
 #repo_id = "google/mt5-base"
 
 
-#llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.5, "min_tokens": 200}) #, "min_tokens": 200
+#llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.5}) #, "min_tokens": 200
 
 
 
@@ -169,11 +171,11 @@ print("Source of information: ", matching_docs[0].metadata)
 
 
 
-
 import requests
+au = "Bearer " + HUGGINGFACEHUB_API_TOKEN
 
 API_URL = "https://api-inference.huggingface.co/models/timpal0l/mdeberta-v3-base-squad2"
-headers = {"Authorization": "Bearer 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"}
+headers = {"Authorization": au}
 
 def query1(payload):
 	response = requests.post(API_URL, headers=headers, json=payload)
@@ -195,9 +197,9 @@ print(output)
 
 
 """
-retriever = db.as_retriever(search_type="similarity", search_kwargs={"k":2})
-qa = RetrievalQA.from_chain_type(
-    llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
+#retriever = db.as_retriever(search_type="similarity", search_kwargs={"k":2})
+#qa = RetrievalQA.from_chain_type(
+#    llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
 
 
 chat_history = []
@@ -205,6 +207,18 @@ while True:
    query = input("Question")
    if query == "quit":
       break
+   
+    # Initialize the list to store matching documents
+   matching_docs = []
+
+  # Perform similarity search on each database
+   for db_directory in db_directories:
+      db = Chroma(persist_directory=db_directory, embedding_function=embeddings)
+      matching_docs += db.similarity_search(query)
+
+   retriever = db.as_retriever(search_type="similarity", search_kwargs={"k":2})
+   qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
+
    result = qa({"query": query, "chat_history": chat_history})
    print("-----------------------------------------")
    print("-----------------------------------------")
@@ -213,8 +227,8 @@ while True:
    print("-----------------------------------------")
    hist = (query, result)
    chat_history.append(hist)
+"""
 
-   """
 
 
 
