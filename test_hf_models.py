@@ -16,7 +16,8 @@ prompt = PromptTemplate(
 #question = input("Q: ")
 question = "What is the capital of Sweden? "
 
-repo_id = "google/flan-t5-xxl"
+#repo_id = "google/flan-t5-xxl"
+repo_id = "timpal0l/mdeberta-v3-base-squad2"
 #repo_id = "google/mt5-base"
 
 llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.5, "max_length": 64})

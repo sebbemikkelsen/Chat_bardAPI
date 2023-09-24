@@ -3,4 +3,14 @@ venv/
 cookies_snapshot/
 trying.py
 trying2.py
-htmlTemplates.py
+
+chroma_db_swe1_batch_0/
+chroma_db_swe1_batch_1/
+chroma_db_swe1_batch_2/
+chroma_db_swe1_batch_3/
+chroma_db_swe1_batch_4/
+chroma_db_swe1_batch_5/
+chroma_db_swe1_batch_6/
+chroma_db_swe1_batch_7/
+chroma_db1/
+
