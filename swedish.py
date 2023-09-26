@@ -67,12 +67,13 @@ docs = split_docs(documents)
 
 
 # Define the list of database directories
-db_directories = ["./chroma_db_swe1_batch_0", "./chroma_db_swe1_batch_1", "./chroma_db_swe1_batch_2", "./chroma_db_swe1_batch_3", "./chroma_db_swe1_batch_4", "./chroma_db_swe1_batch_5", "./chroma_db_swe1_batch_6", "./chroma_db_swe1_batch_7"]
+#db_directories = ["./chroma_db_swe1_batch_0", "./chroma_db_swe1_batch_1", "./chroma_db_swe1_batch_2", "./chroma_db_swe1_batch_3", "./chroma_db_swe1_batch_4", "./chroma_db_swe1_batch_5", "./chroma_db_swe1_batch_6", "./chroma_db_swe1_batch_7"]
+db_directories = [f"test_chroma_db_batch_{x}" for x in range(16)]
 embeddings = HuggingFaceEmbeddings(model_name="KBLab/sentence-bert-swedish-cased")
 
 # Define your query
-query = "När anses bolaget bildat?"
-
+#query = "När anses bolaget bildat?"
+query = "vad ska jag göra med fastighetstaxeringsavin?"
 
 # Initialize the list to store matching documents
 matching_docs = []
@@ -142,18 +143,19 @@ for db_directory in db_directories:
 HUGGINGFACEHUB_API_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
 
-#repo_id = "google/flan-t5-xxl"
-#repo_id = "timpal0l/mdeberta-v3-base-squad2"
+repo_id = "google/flan-t5-xxl"
+#repo_id = "m3hrdadfi/xlmr-large-qa-sv"
 #repo_id = "google/mt5-large"
 #repo_id = "google/mt5-base"
+#repo_id = "facebook/m2m100_418M"
 
 
-#llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.5}) #, "min_tokens": 200
+llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.5}) #, "min_tokens": 200
 
 
 
 
-"""
+
 chain = load_qa_chain(llm, chain_type="stuff",verbose=True)
 
 #answer = chain.run(input_documents=matching_docs, question=query)
@@ -164,13 +166,15 @@ chain = load_qa_chain(llm, chain_type="stuff",verbose=True)
 retrieval_chain = RetrievalQA.from_chain_type(llm, chain_type="stuff", retriever=db.as_retriever())
 print("Answer: ", retrieval_chain.run(query))
 print("Source of information: ", matching_docs[0].metadata)
+print("=======================================================================")
+print(matching_docs[0])
+
+
+
+
+
+
 """
-
-
-
-
-
-
 import requests
 au = "Bearer " + HUGGINGFACEHUB_API_TOKEN
 
@@ -189,7 +193,7 @@ output = query1({
 })
 
 print(output)
-
+"""
 
 
 

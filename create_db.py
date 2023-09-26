@@ -3,15 +3,23 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import SentenceTransformerEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
+import os
+from langchain.document_loaders import TextLoader
 
 
-directory = './docs_swe'
+directory = './subpage_texts'
 
 def load_docs(directory):
   """load all the documents from the specified directory"""
   loader = DirectoryLoader(directory)
   documents = loader.load()
   return documents
+
+
+def load_txt_files(directory):
+
+    loader = TextLoader("./index.md")
+    documents = loader.load()
 
 
 def split_docs(documents,chunk_size=500,chunk_overlap=10):
@@ -39,8 +47,9 @@ def store_vectorstore(docs, db_name):
         )
         vectordb.persist()
 
+
+"""
 #def store_vectorstore(docs, db_name):
-    """Store the text vectors in database"""
     embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
     #embeddings = HuggingFaceEmbeddings(model_name="intfloat/multilingual-e5-base")
     #embeddings = HuggingFaceEmbeddings(model_name="KBLab/sentence-bert-swedish-cased")
@@ -51,13 +60,14 @@ def store_vectorstore(docs, db_name):
         documents=docs, embedding=embeddings, persist_directory=persist_directory
     )
     vectordb.persist()
-
+"""
 
 
 
 def main():
-    db_name = "chroma_db_swe1"
+    db_name = "test_chroma_db"
     documents = load_docs(directory)
+    #documents = load_txt_files(directory)
     docs = split_docs(documents)
     print(docs[1])
     store_vectorstore(docs, db_name)
