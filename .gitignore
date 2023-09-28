@@ -32,3 +32,5 @@ test_chroma_db_batch_14/
 test_chroma_db_batch_15/
 
 subpage_texts/
+
+yt.py

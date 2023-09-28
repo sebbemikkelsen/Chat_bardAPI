@@ -22,9 +22,13 @@ class HC_bot:
 
         # Create a new conversation
         self.id = self.chatbot.new_conversation()
+
+
+
+
         #chatbot.change_conversation(id)
 
-        self.chat()
+        #self.chat()
 
     def chat(self):
 
@@ -36,8 +40,15 @@ class HC_bot:
         # Get conversation list
         #conversation_list = chatbot.get_conversation_list()
 
+    def chat_new(self, query):
+        print("ANS: ", self.chatbot.chat(query))
+
+    def one_chat(self, query):
+        return self.chatbot.query(query)["text"]
+
+
     def get_summary(self):
-        print(self.chat.summarize_conversation(self.id))
+        print(self.chatbot.summarize_conversation(self.id))
 
 
     def switch_model(self, model):
@@ -57,15 +68,27 @@ class HC_bot:
 
 
 
+
+
 def main():
     email = os.getenv("EMAIL_HF")
     pw = os.getenv("PASS_HF")
     bot = HC_bot(email, pw)
 
     bot.new_chat()
+    
+    query = input("Q: ")
+    ans = bot.one_chat(query)
+    print(ans)
 
+    """
+    query = input(">>> ")
+    while query != "quit":
+        bot.chat_new(query)
+        query = input(">>> ")
+"""
 
-
+    #bot.get_summary()
 
 if __name__ == '__main__':
     main()

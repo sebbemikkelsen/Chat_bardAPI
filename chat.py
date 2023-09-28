@@ -13,40 +13,9 @@ import os
 load_dotenv()
 
 
-directory = './docs'
-
-def load_docs(directory):
-  """load all the documents from the specified directory"""
-  loader = DirectoryLoader(directory)
-  documents = loader.load()
-  return documents
-
-
-documents = load_docs(directory)
-
-
-def split_docs(documents,chunk_size=1000,chunk_overlap=20):
-  """Split the documents in smaller text chunks, with some overlap to not loose contex"""
-  text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-  docs = text_splitter.split_documents(documents)
-  return docs
-
-def store_vectorstore(docs):
-    """Store the text vectors in database"""
-    embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
-    db = Chroma.from_documents(docs, embeddings)
-    persist_directory = "chroma_db"
-    vectordb = Chroma.from_documents(
-        documents=docs, embedding=embeddings, persist_directory=persist_directory
-    )
-    vectordb.persist()
-    return db
-
-
-docs = split_docs(documents)
 embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 db = Chroma(persist_directory="./chroma_db", embedding_function=embeddings)
-#db = store_vectorstore(docs)
+
 
 
 query = "How many books is there in the library?"
