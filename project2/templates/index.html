@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-history">
+            <!-- Display chat history here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="question" placeholder="Ask a question">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <!--
+    <div class="download-files">
+        !-- Put files here --
+    </div>
+    -->
+    <div class="download-files">
+        <a id="download-button" class="download-button" download>Download First Source File</a>
+        <a id="download-button2" class="download-button" download>Download Second Source File</a>
+    </div>
+
+    <script>
+
+
+
+
+
+        // Function to send a question to the server and update the chat history
+        async function askQuestion() {
+        // Get the user's question and chat history
+        const question = document.getElementById('question').value;
+        const history = document.querySelector('.chat-history');
+
+        // Clear the input field
+        document.getElementById('question').value = '';
+
+        // Create a new message element for the user's question
+        const userMessage = document.createElement('div');
+        userMessage.className = 'message user';
+        userMessage.textContent = `Jag: ${question}`;
+        history.appendChild(userMessage);
+
+        // Send the question to the server using the fetch API
+        try {
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `question=${encodeURIComponent(question)}&history=${encodeURIComponent(history.innerHTML)}`,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server responded with status ${response.status}`);
+            }
+
+            const responseData = await response.json();
+
+            const filename1 = responseData.filename1.slice(14);
+            const filename2 = responseData.filename2.slice(14);
+
+            // Create a new message element for the chatbot's response
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot';
+            botMessage.textContent = `Expert: ${responseData.response}`;
+            const botSource = document.createElement('p');
+            botSource.textContent = `Source: ${filename1} and ${filename2}`;
+            botMessage.appendChild(botSource);
+            history.appendChild(botMessage);
+
+
+
+/*
+            //Make the txt-file available for download
+            const file = document.createElement('a');
+            file.textContent = 'Download source file';
+            file.download = `${responseData.filename}`;
+            file.href = `${responseData.filename}`;
+
+            const download_file_div = document.querySelector('.download-files');
+            download_file_div.innerHTML = "";
+            download_file_div.appendChild(file);
+*/
+
+            //find download button element
+            const downloadButton = document.getElementById('download-button');
+            downloadButton.download = filename1;
+            downloadButton.href = "subpage_texts/" + filename1;
+
+            const downloadButton2 = document.getElementById('download-button2');
+            downloadButton2.download = filename2;
+            downloadButton2.href = "subpage_texts/" + filename2;
+
+
+
+            // Scroll to the bottom of the chat history
+            history.scrollTop = history.scrollHeight;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+
+
+        }
+
+        // Attach the askQuestion function to the send button's click event
+        document.getElementById('send-button').addEventListener('click', askQuestion);
+
+        // Allow pressing Enter key to send the question
+        document.getElementById('question').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                askQuestion();
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+        // Function to send a question to the server and update the chat history
+        function askQuestion() {
+            // Get the user's question and chat history
+            const question = document.getElementById('question').value;
+            const history = document.querySelector('.chat-history');
+
+            // Clear the input field
+            document.getElementById('question').value = '';
+
+            // Create a new message element for the user's question
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.textContent = `You: ${question}`;
+            history.appendChild(userMessage);
+
+            // Send the question to the server using AJAX (you can also use Fetch API)
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/ask', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Parse the server response
+                    const response = JSON.parse(xhr.responseText);
+
+                    // Create a new message element for the chatbot's response
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot';
+                    botMessage.textContent = `Bot: ${response.response}`;
+                    history.appendChild(botMessage);
+
+                    // Scroll to the bottom of the chat history
+                    history.scrollTop = history.scrollHeight;
+                }
+            };
+
+            // Send the question to the server
+            xhr.send(`question=${encodeURIComponent(question)}&history=${encodeURIComponent(history.innerHTML)}`);
+        }
+
+        // Attach the askQuestion function to the send button's click event
+        document.getElementById('send-button').addEventListener('click', askQuestion);
+
+        // Allow pressing Enter key to send the question
+        document.getElementById('question').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                askQuestion();
+            }
+        });
+        */
+    </script>
+</body>
+</html>

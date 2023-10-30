@@ -1,0 +1,100 @@
+/* Reset default browser styles */
+body, div, p, input, button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Container for the chat interface */
+.chat-container {
+    /*width: 400px;*/
+    width: 75vh;
+    height: 80vh;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Chat history container */
+.chat-history {
+    /*max-height: 300px;*/
+    height: 60vh;
+    overflow-y: scroll;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Chat messages */
+.message {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    word-wrap: break-word;
+}
+
+.message.user {
+    background-color: #3498db;
+    color: #fff;
+    text-align: right;
+}
+
+.message.bot {
+    background-color: #ecf0f1;
+    color: #333;
+    text-align: left;
+}
+
+/* Input field and send button */
+.chat-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+#question {
+    flex-grow: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+#send-button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#send-button:hover {
+    background-color: #2980b9;
+}
+
+.download-files {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.download-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px;
+}
+.download-button:hover{
+    background-color: #0056b3;
+    cursor: pointer;
+}
