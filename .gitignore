@@ -3,6 +3,11 @@ venv/
 cookies_snapshot/
 trying.py
 trying2.py
+trying1.ipynb
+test_hf_models1.py
+chat1.py
+swedish1.py
+hndl_dcs_jptr1.ipynb
 
 chroma_db_swe1_batch_0/
 chroma_db_swe1_batch_1/
@@ -33,4 +38,4 @@ test_chroma_db_batch_15/
 
 subpage_texts/
 
-yt.py
+
